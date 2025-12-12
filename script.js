@@ -1,19 +1,26 @@
-// Testowe dane logowania
-const correctUsername = "Marta";
-const correctPassword = "123";
+// Definiujemy użytkowników i hasła z odpowiadającymi im linkami
+const users = [
+    { username: "testuser", password: "1234", redirect: "https://www.youtube.com/watch?v=lKduL67IulI" },
+    { username: "user2", password: "abcd", redirect: "https://www.google.com" },
+    { username: "admin", password: "admin", redirect: "https://www.wikipedia.org" }
+];
 
-// Obsługa formularza
-document.getElementById("loginForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+// Pobranie formularza
+const form = document.getElementById("loginForm");
 
-    const u = document.getElementById("username").value;
-    const p = document.getElementById("password").value;
+form.addEventListener("submit", function(event) {
+    event.preventDefault(); // zatrzymuje domyślne wysyłanie formularza
 
-    if (u === correctUsername && p === correctPassword) {
-        alert("Zalogowano pomyślnie (tryb testowy)");
-        // Przekierowanie na YouTube po poprawnym loginie
-        window.location.href = "https://www.youtube.com/watch?v=lKduL67IulI";
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    // Szukamy dopasowanego użytkownika
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if(user) {
+        // Przekierowanie na stronę zależną od hasła
+        window.location.href = user.redirect;
     } else {
-        alert("Błędny login lub hasło (tryb testowy)");
+        alert("Niepoprawny login lub hasło!");
     }
 });
